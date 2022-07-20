@@ -1,0 +1,103 @@
+<!DOCTYPE html lang="en">
+    <head>
+      <style>
+        body{
+          padding: 3em 0 0 0;
+          margin: 0;
+          box-sizing: border-box;
+          text-align: center;
+          background-color: aquamarine;
+        }
+        #vowels{
+          margin: 1em 0;
+        }
+        #checker{
+          margin: 0 0 1em 0;
+        }
+        h1{
+          margin: 0 0 2em 0;
+        }
+        #middle-value{
+          margin: 1em 0 0 0;
+          display: none;
+        }
+        #moreLetters{
+          margin: 1em 0 0 0;
+        }
+      </style>
+      <meta charset="UTF-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Palindrome Checker</title>
+    </head>
+    <body>
+      <h1>Palindrome Checker</h1>
+      <input type="text" id="text">
+      <button id="checker">Palindrome checker</button>
+      <div id="output"></div>
+      <div id="vowels"></div>
+      <div id="consonants"></div>
+      <div id="moreletters"></div>
+      <div id="middle-value"></div>
+
+    </body>
+</html>
+    <script>
+      const text = document.querySelector("#text")
+      const button = document.querySelector("#checker")
+      const output = document.querySelector("#output")
+      let vowels = document.querySelector("#vowels")
+      let consonants = document.querySelector("#consonants")
+
+
+  button.addEventListener("click", function(){
+    let sentence = text.value
+    const reg = /[\W_]/g
+    let vowelCount = 0
+    let consonantCount = 0
+
+    let regSen = sentence.toLowerCase().replace(reg, "")
+    let reversed = regSen.split("").reverse().join("")
+    let middleLetter = document.querySelector("#middle-value")
+    let letterAsort = document.querySelector("#moreLetters")
+
+    if(regSen === reversed){
+      for(i = 0; i < regSen.length; i++){
+        if (regSen[i] === "a" || regSen[i] === "e" || regSen[i] === "i"
+        || regSen[i] === "o" || regSen[i] === "u"){
+          vowelCount += 1
+        } else{
+          consonantCount += 1
+        }
+        letterAsort.style.display = "block"
+        if(vowelCount > consonantCount){
+          letterAsort.innerText = `${regSen} has more vowels than consonants`
+        } else if(consonantCount > vowelCount) {
+          letterAsort.innerText = `${regSen} has more consonants than vowels`
+        }
+        else{
+          letterAsort.innerText = `${regSen} has equal number of vowels and consonants`
+        }
+      }
+      output.innerText = `${regSen} is a palindrome`
+      vowels.innerText = `${regSen} total vowel count is ${vowelCount}`
+      consonants.innerText = `${regSen} total consonant count is ${consonantCount}`
+
+      if (regSen.length % 2 === 0){
+        pivotLetter1 = Math.floor((regSen.length - 1) / 2)
+        pivotLetter2 = Math.floor(regSen.length / 2)
+        middleLetter.innerText = `The middle values is "${regSen[pivotLetter1]}" and "${regSen[pivotLetter2]}" `
+      } else{
+        pivotLetter1 = Math.floor(regSen.length / 2)
+        middleLetter.innerText = `The middle value is "${regSen[pivotLetter1]}"`
+      }
+    }
+    else{
+      output.innerText = `${regSen} is not a palindrome`
+      vowels.innerText = ""
+      consonants.innerText = ""
+      middleLetter.innerText = "No middle value detected"
+      letterAsort.innerText = ""
+    }
+  })
+    </script>
